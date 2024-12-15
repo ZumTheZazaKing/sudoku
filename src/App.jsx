@@ -1,5 +1,6 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
+import Footer from "./components/Footer";
 
 const Landing = lazy(() =>
   import("./pages/Landing").then((module) => ({ default: module.Landing }))
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
