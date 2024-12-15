@@ -1,12 +1,19 @@
-import { useState } from 'react'
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
+
+const Landing = lazy(() =>
+  import("./pages/Landing").then((module) => ({ default: module.Landing }))
+);
 
 function App() {
-
   return (
-    <div>
-      <h1>Hello</h1>
-    </div>
-  )
+    <Router>
+      <Suspense fallback={<h1>Loading...</h1>}></Suspense>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
