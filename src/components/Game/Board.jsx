@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { Context } from "../../Context";
+import { toast } from "react-toastify";
 
 const Board = () => {
   const { state, dispatch } = useContext(Context);
@@ -7,7 +8,7 @@ const Board = () => {
   const [selectedCoords, setSelectedCoords] = useState(null);
 
   const handleCellClick = (x, y) => {
-    console.log(`Coords: ${x}, ${y}`);
+    //console.log(`Coords: ${x}, ${y}`);
     setSelectedCoords({ x: x, y: y });
   };
 
@@ -27,7 +28,7 @@ const Board = () => {
         (f) => f.x == selectedCoords.x && f.y == selectedCoords.y
       )
     )
-      return console.log("Can't change fixed numbers");
+      return toast.error("Can't change default numbers");
 
     let { x, y } = selectedCoords;
     dispatch({ type: "SET_VALUE", payload: { x, y, num } });

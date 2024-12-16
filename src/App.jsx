@@ -3,6 +3,9 @@ import { Suspense, lazy, useMemo, useReducer } from "react";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import { Context } from "./Context";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Landing = lazy(() =>
   import("./pages/Landing").then((module) => ({ default: module.Landing }))
 );
@@ -75,6 +78,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/game" element={<Game />} />
           </Routes>
+          <ToastContainer position="top-left" autoClose={1000} />
         </Suspense>
       </Context.Provider>
       <Footer />
