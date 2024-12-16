@@ -30,7 +30,12 @@ function App() {
       case "SET_VALUE": {
         let temp = [...state.gameState];
         let { x, y, num } = action.payload;
-        temp[y][x] = num;
+        
+        if (state.gameState[y][x] == num) {
+          temp[y][x] = null;
+        } else {
+          temp[y][x] = num;
+        }
 
         return {
           ...state,

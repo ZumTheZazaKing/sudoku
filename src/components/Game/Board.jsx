@@ -67,13 +67,13 @@ const Board = () => {
           .fill()
           .map((_, i) => i + 1)
           .map((num, i) => (
-            <div
+            <button
               className="option cursor-pointer p-2 text-lg font-semibold bg-slate-200 rounded-md"
               key={i}
               onClick={() => handleOptionsClick(num)}
             >
               {num}
-            </div>
+            </button>
           ))}
       </div>
     </>
