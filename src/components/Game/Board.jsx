@@ -56,7 +56,7 @@ const Board = () => {
                     }
                 `}
               >
-                {cell ?? ""}
+                {cell ? cell : ""}
               </div>
             ))}
           </div>

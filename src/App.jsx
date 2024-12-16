@@ -3,7 +3,6 @@ import { Suspense, lazy, useMemo, useReducer } from "react";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import { Context } from "./Context";
-
 const Landing = lazy(() =>
   import("./pages/Landing").then((module) => ({ default: module.Landing }))
 );
@@ -22,6 +21,11 @@ function App() {
 
   const reducer = (state, action) => {
     switch (action.type) {
+      case "NEW_BOARD":
+        return {
+          ...state,
+          gameState: [...action.payload],
+        };
       case "INCREMENT_TIME":
         return {
           ...state,
@@ -30,7 +34,7 @@ function App() {
       case "SET_VALUE": {
         let temp = [...state.gameState];
         let { x, y, num } = action.payload;
-        
+
         if (state.gameState[y][x] == num) {
           temp[y][x] = null;
         } else {
