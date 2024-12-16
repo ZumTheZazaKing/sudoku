@@ -22,6 +22,7 @@ function App() {
       .map(() => Array(9).fill(null)),
     solutiion: null,
     fixed: null,
+    invalid: null,
   };
 
   const reducer = (state, action) => {
@@ -42,10 +43,16 @@ function App() {
         };
       case "SET_VALUE": {
         let temp = [...state.gameState];
+        let tempInvalid = state.invalid || [];
         let { x, y, num } = action.payload;
 
         if (state.gameState[y][x] == num) {
           temp[y][x] = null;
+
+          let invalidIdx = tempInvalid.findIndex(
+            (item) => item.x === x && item.y === y
+          );
+          if (invalidIdx !== -1) tempInvalid.splice(invalidIdx, 1);
         } else {
           temp[y][x] = num;
         }
@@ -53,8 +60,14 @@ function App() {
         return {
           ...state,
           gameState: [...temp],
+          invalid: [...tempInvalid],
         };
       }
+      case "INVALID_MOVE":
+        return {
+          ...state,
+          invalid: [...action.payload],
+        };
       default:
         return { ...state };
     }

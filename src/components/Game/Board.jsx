@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "../../Context";
 import { toast } from "react-toastify";
 
@@ -7,9 +7,13 @@ const Board = () => {
 
   const [selectedCoords, setSelectedCoords] = useState(null);
 
-  const handleCellClick = (x, y) => {
+  useEffect(() => {
+    console.log(state.invalid);
+  }, []);
+
+  const handleCellClick = (col, row) => {
     //console.log(`Coords: ${x}, ${y}`);
-    setSelectedCoords({ x: x, y: y });
+    setSelectedCoords({ x: col, y: row });
   };
 
   document.addEventListener("click", (e) => {
@@ -20,6 +24,30 @@ const Board = () => {
       return;
     setSelectedCoords(null);
   });
+
+  function isValidMove(board, row, col, num) {
+    // Check row
+    for (let i = 0; i < 9; i++) {
+      if (board[row][i] === num) return false;
+    }
+
+    // Check column
+    for (let i = 0; i < 9; i++) {
+      if (board[i][col] === num) return false;
+    }
+
+    // Check 3x3 grid
+    const startRow = Math.floor(row / 3) * 3;
+    const startCol = Math.floor(col / 3) * 3;
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[startRow + i][startCol + j] === num) return false;
+      }
+    }
+
+    return true; // Move is valid
+  }
 
   const handleOptionsClick = (num) => {
     if (!selectedCoords) return;
@@ -32,6 +60,14 @@ const Board = () => {
 
     let { x, y } = selectedCoords;
     dispatch({ type: "SET_VALUE", payload: { x, y, num } });
+
+    if (state.gameState[y][x] == num) return;
+
+    if (!isValidMove(state.gameState, y, x, num)) {
+      let temp = state.invalid || [];
+      temp.push({ x: x, y: y });
+      dispatch({ type: "INVALID_MOVE", payload: [...temp] });
+    }
   };
 
   return (
@@ -61,6 +97,14 @@ const Board = () => {
                       i == selectedCoords.y &&
                       "bg-blue-200"
                     }
+                    ${
+                      state.invalid &&
+                      state.invalid.some(
+                        (item) => item.x === j && item.y === i
+                      ) &&
+                      "bg-red-300"
+                    }
+                    
                 `}
               >
                 {cell ? cell : ""}
