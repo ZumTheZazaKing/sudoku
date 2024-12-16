@@ -17,15 +17,20 @@ function App() {
     gameState: Array(9)
       .fill()
       .map(() => Array(9).fill(null)),
+    solutiion: null,
+    fixed: null,
   };
 
   const reducer = (state, action) => {
     switch (action.type) {
-      case "NEW_BOARD":
+      case "NEW_BOARD": {
+        const { values, solution } = action.payload;
         return {
           ...state,
-          gameState: [...action.payload],
+          gameState: [...values],
+          solution: [...solution],
         };
+      }
       case "INCREMENT_TIME":
         return {
           ...state,

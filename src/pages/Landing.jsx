@@ -15,7 +15,10 @@ export const Landing = () => {
     axios.get("https://sudoku-api.vercel.app/api/dosuku").then((res) => {
       dispatch({
         type: "NEW_BOARD",
-        payload: res.data.newboard.grids[0].value,
+        payload: {
+          values: res.data.newboard.grids[0].value,
+          solution: res.data.newboard.grids[0].solution,
+        },
       });
       setLoading(false);
       navigate("/game");
