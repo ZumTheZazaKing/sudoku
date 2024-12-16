@@ -24,11 +24,12 @@ function App() {
   const reducer = (state, action) => {
     switch (action.type) {
       case "NEW_BOARD": {
-        const { values, solution } = action.payload;
+        const { values, solution, fixed } = action.payload;
         return {
           ...state,
           gameState: [...values],
           solution: [...solution],
+          fixed: [...fixed],
         };
       }
       case "INCREMENT_TIME":

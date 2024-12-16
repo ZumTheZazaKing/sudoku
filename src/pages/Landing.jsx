@@ -13,11 +13,23 @@ export const Landing = () => {
     setLoading(true);
 
     axios.get("https://sudoku-api.vercel.app/api/dosuku").then((res) => {
+
+      let fixed = [];
+
+      for (let i = 0; i < res.data.newboard.grids[0].value.length; i++) {
+        for (let j = 0; j < res.data.newboard.grids[0].value[i].length; j++) {
+          if (res.data.newboard.grids[0].value[i][j] != 0) {
+            fixed.push({ x: j, y: i });
+          }
+        }
+      }
+
       dispatch({
         type: "NEW_BOARD",
         payload: {
           values: res.data.newboard.grids[0].value,
           solution: res.data.newboard.grids[0].solution,
+          fixed: [...fixed],
         },
       });
       setLoading(false);

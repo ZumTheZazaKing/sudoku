@@ -9,7 +9,6 @@ const Board = () => {
   const handleCellClick = (x, y) => {
     console.log(`Coords: ${x}, ${y}`);
     setSelectedCoords({ x: x, y: y });
-    // dispatch({ type: "SET_VALUE", payload: { x, y, num: 1 } });
   };
 
   document.addEventListener("click", (e) => {
@@ -23,6 +22,13 @@ const Board = () => {
 
   const handleOptionsClick = (num) => {
     if (!selectedCoords) return;
+    if (
+      [...state.fixed].some(
+        (f) => f.x == selectedCoords.x && f.y == selectedCoords.y
+      )
+    )
+      return console.log("Can't change fixed numbers");
+
     let { x, y } = selectedCoords;
     dispatch({ type: "SET_VALUE", payload: { x, y, num } });
   };
