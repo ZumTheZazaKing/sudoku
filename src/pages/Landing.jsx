@@ -5,7 +5,7 @@ export const Landing = () => {
 
   return (
     <div className="flex flex-col gap-5 items-center justify-center h-screen w-screen">
-      <h1 className="text-3xl font-semibold">
+      <h1 className="text-3xl font-bold">
         Zum
         <span className="text-blue-500">Sudoku</span>
       </h1>

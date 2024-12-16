@@ -22,6 +22,21 @@ function App() {
 
   const reducer = (state, action) => {
     switch (action.type) {
+      case "INCREMENT_TIME":
+        return {
+          ...state,
+          time: state.time + 1,
+        };
+      case "SET_VALUE": {
+        let temp = [...state.gameState];
+        let { x, y, num } = action.payload;
+        temp[y][x] = num;
+
+        return {
+          ...state,
+          gameState: [...temp],
+        };
+      }
       default:
         return { ...state };
     }
