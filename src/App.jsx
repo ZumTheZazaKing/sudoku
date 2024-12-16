@@ -1,7 +1,8 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { Suspense, createContext, lazy, useMemo, useReducer } from "react";
+import { Suspense, lazy, useMemo, useReducer } from "react";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+import { Context } from "./Context";
 
 const Landing = lazy(() =>
   import("./pages/Landing").then((module) => ({ default: module.Landing }))
@@ -10,23 +11,13 @@ const Game = lazy(() =>
   import("./pages/Game").then((module) => ({ default: module.Game }))
 );
 
-export const Context = createContext({});
-
 function App() {
   const initialState = {
     start: false,
     time: 0,
-    gameState: [
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-    ],
+    gameState: Array(9)
+      .fill()
+      .map(() => Array(9).fill(null)),
   };
 
   const reducer = (state, action) => {

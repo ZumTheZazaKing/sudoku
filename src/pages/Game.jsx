@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Context } from "../App";
+import { Context } from "../Context";
 
 export const Game = () => {
   const { state } = useContext(Context);
