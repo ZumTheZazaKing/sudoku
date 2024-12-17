@@ -7,10 +7,6 @@ const Board = () => {
 
   const [selectedCoords, setSelectedCoords] = useState(null);
 
-  useEffect(() => {
-    console.log(state.invalid);
-  }, []);
-
   const handleCellClick = (col, row) => {
     //console.log(`Coords: ${x}, ${y}`);
     setSelectedCoords({ x: col, y: row });
@@ -102,7 +98,7 @@ const Board = () => {
                       state.invalid.some(
                         (item) => item.x === j && item.y === i
                       ) &&
-                      "bg-red-300"
+                      "text-red-500"
                     }
                     
                 `}
