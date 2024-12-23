@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { MemoryRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useMemo, useReducer } from "react";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
@@ -12,15 +12,17 @@ const Landing = lazy(() =>
 const Game = lazy(() =>
   import("./pages/Game").then((module) => ({ default: module.Game }))
 );
+const Complete = lazy(() =>
+  import("./pages/Complete").then((module) => ({ default: module.Complete }))
+);
 
 function App() {
   const initialState = {
-    start: false,
     time: 0,
     gameState: Array(9)
       .fill()
       .map(() => Array(9).fill(null)),
-    solutiion: null,
+    solution: null,
     fixed: null,
     invalid: null,
   };
@@ -30,7 +32,7 @@ function App() {
       case "NEW_BOARD": {
         const { values, solution, fixed } = action.payload;
         return {
-          ...state,
+          ...initialState,
           gameState: [...values],
           solution: [...solution],
           fixed: [...fixed],
@@ -90,6 +92,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/game" element={<Game />} />
+            <Route path="/complete" element={<Complete />} />
           </Routes>
           <ToastContainer position="top-left" autoClose={1000} />
         </Suspense>

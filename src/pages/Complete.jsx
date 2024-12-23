@@ -1,15 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useContext, useState } from "react";
 import { Context } from "../Context";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { formatDuration } from "../utils/string";
 
-export const Landing = () => {
+export const Complete = () => {
+  const { state, dispatch } = useContext(Context);
   const navigate = useNavigate();
-  const { dispatch } = useContext(Context);
-
   const [loading, setLoading] = useState(false);
 
-  const handlePlay = () => {
+  const handlePlayAgain = () => {
     if (loading) return;
     setLoading(true);
 
@@ -33,25 +33,37 @@ export const Landing = () => {
         },
       });
       setLoading(false);
-      console.log(res.data.newboard.grids[0].solution);
       navigate("/game");
     });
   };
 
+  const handleMainMenu = () => {
+    navigate("/");
+  };
+
   return (
-    <div className="flex flex-col gap-5 items-center justify-center h-screen w-screen">
-      <h1 className="text-3xl font-bold">
-        Zum
-        <span className="text-blue-500">Sudoku</span>
-      </h1>
-      <div className="flex flex-col gap-2">
+    <main className="w-screen h-screen text-center flex flex-col items-center justify-center gap-5">
+      <section>
+        <h1 className="text-xl font-semibold">Puzzle Solved!</h1>
+        <p>
+          Time Taken: <br />
+          <span className="text-lg">{formatDuration(state.time) || "0s"}</span>
+        </p>
+      </section>
+      <section className="flex flex-col gap-2">
         <button
-          onClick={() => handlePlay()}
+          onClick={handlePlayAgain}
           className="px-4 py-2 bg-blue-400 rounded-lg text-white min-w-[100px] uppercase tracking-wider"
         >
-          {loading ? "Loading... " : "Play"}
+          {loading ? "Loading..." : "Play Again"}
         </button>
-      </div>
-    </div>
+        <button
+          onClick={handleMainMenu}
+          className="px-4 py-2 bg-slate-400 rounded-lg text-white min-w-[100px] uppercase tracking-wider"
+        >
+          Main Menu
+        </button>
+      </section>
+    </main>
   );
 };

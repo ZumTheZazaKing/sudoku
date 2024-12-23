@@ -1,9 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Context } from "../../Context";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Board = () => {
   const { state, dispatch } = useContext(Context);
+  const navigate = useNavigate();
 
   const [selectedCoords, setSelectedCoords] = useState(null);
 
@@ -64,6 +66,33 @@ const Board = () => {
       temp.push({ x: x, y: y });
       dispatch({ type: "INVALID_MOVE", payload: [...temp] });
     }
+
+    setTimeout(() => {
+      if (isPuzzleSolved()) {
+        navigate("/complete");
+      }
+    }, 500);
+  };
+
+  const isPuzzleSolved = () => {
+    const arr1 = state.gameState;
+    const arr2 = state.solution;
+
+    if (arr1.length != arr2.length) return false;
+
+    for (let i = 0; i < arr1.length; i++) {
+      const subArr1 = arr1[i];
+      const subArr2 = arr2[i];
+      console.log(subArr1, subArr2);
+
+      if (subArr1.length != subArr2.length) return false;
+
+      for (let j = 0; j < subArr1.length; j++) {
+        if (subArr1[j] != subArr2[j]) return false;
+      }
+    }
+
+    return true;
   };
 
   return (
